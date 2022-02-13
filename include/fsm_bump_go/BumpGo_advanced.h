@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FSM_BUMP_GO_BUMPGO_H
-#define FSM_BUMP_GO_BUMPGO_H
+#ifndef FSM_BUMP_GO_BUMPGO_ADVANCED_H
+#define FSM_BUMP_GO_BUMPGO_ADVANCED_H
 
 #include "ros/ros.h"
 
@@ -23,10 +23,10 @@
 namespace fsm_bump_go
 {
 
-class BumpGo
+class BumpGoAD
 {
 public:
-  BumpGo();
+  BumpGoAD();
 
   void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
   void step();
@@ -57,4 +57,4 @@ protected:
 
 }  // namespace fsm_bump_go
 
-#endif  // FSM_BUMP_GO_BUMPGO_H
+#endif  // FSM_BUMP_GO_BUMPGO_ADVANCED_H
