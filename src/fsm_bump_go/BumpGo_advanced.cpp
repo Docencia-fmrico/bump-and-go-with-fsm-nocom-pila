@@ -13,18 +13,18 @@
 // limitations under the License.
 
 #include "ros/ros.h"
-#include "fsm_bump_go/BumpGo.h"
+#include "fsm_bump_go/BumpGo_advanced.h"
 
 namespace fsm_bump_go
 {
-BumpGo::BumpGo(): state_(GOING_FORWARD), pressed_(false)
+BumpGoAD::BumpGoAD(): state_(GOING_FORWARD), pressed_(false)
 {
-  sub_bumber_ = n_.subscribe("/mobile_base/events/bumper", 1, &BumpGo::bumperCallback, this); // ("<topic al que te suscribes>", 1, &clase::callbackNecesario, this)
+  sub_bumber_ = n_.subscribe("/mobile_base/events/bumper", 1, &BumpGoAD::bumperCallback, this); // ("<topic al que te suscribes>", 1, &clase::callbackNecesario, this)
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1); // advertise<tipo de mensaje>("<topic en el que publicar>", 1)
   //pub_led1_ = n_.advertise<
 }
 
-void BumpGo::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
+void BumpGoAD::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
   pressed_ = msg->state == kobuki_msgs::BumperEvent::PRESSED;   // pressed_ cambiara a True si msg->state es PRESSED (1)
 
@@ -32,7 +32,7 @@ void BumpGo::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 
 }
 
-void BumpGo::step()
+void BumpGoAD::step()
 {
   geometry_msgs::Twist cmd;
 
