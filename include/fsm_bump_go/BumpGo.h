@@ -31,6 +31,10 @@ public:
   void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
   void step();
 
+protected:
+  const float LINEAR_SPEED = 0.15;
+  const float TURNING_SPEED = 0.35;
+
 private:
   ros::NodeHandle n_;
 
