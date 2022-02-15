@@ -28,8 +28,8 @@ class BumpGo
 public:
   BumpGo();
 
-  void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
-  void step();
+  virtual void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
+  virtual void step(); 
 
 protected:
   const float LINEAR_SPEED = 0.15;

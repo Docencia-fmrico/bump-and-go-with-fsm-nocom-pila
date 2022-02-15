@@ -17,22 +17,19 @@
 
 namespace fsm_bump_go
 {
-BumpGoAD::BumpGoAD(): state_(GOING_FORWARD), pressed_(false)
-{
-  sub_bumber_ = n_.subscribe("/mobile_base/events/bumper", 1, &BumpGoAD::bumperCallback, this); // ("<topic al que te suscribes>", 1, &clase::callbackNecesario, this)
-  pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1); // advertise<tipo de mensaje>("<topic en el que publicar>", 1)
-  //pub_led1_ = n_.advertise<
-}
 
-void BumpGoAD::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
-{
-  pressed_ = msg->state == kobuki_msgs::BumperEvent::PRESSED;   // pressed_ cambiara a True si msg->state es PRESSED (1)
+  void BumpGoAD :: bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
+  {
+      BumpGo::bumperCallback(msg);
+  }
 
-  // para detectar que lado ha sido presionado se anadira aqui
+  void BumpGoAD :: step()
+  {
+    BumpGo :: step();
 
-}
+  }
 
-void BumpGoAD::step()
+/*void BumpGoAD::step()
 {
   geometry_msgs::Twist cmd;
 
@@ -85,5 +82,5 @@ void BumpGoAD::step()
   }
 
   pub_vel_.publish(cmd);
-}
+}*/
 }

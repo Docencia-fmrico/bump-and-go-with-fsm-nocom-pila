@@ -19,40 +19,18 @@
 
 #include "kobuki_msgs/BumperEvent.h"
 #include "geometry_msgs/Twist.h"
+#include "fsm_bump_go/BumpGo.h"
 
 namespace fsm_bump_go
 {
 
-class BumpGoAD
+class BumpGoAD : BumpGo
 {
 public:
-  BumpGoAD();
+  BumpGoAD() : BumpGo(){};
 
   void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
-  void step();
-
-protected:
-  const float LINEAR_SPEED = 0.15;
-  const float TURNING_SPEED = 0.35;
-
-  ros::NodeHandle n_;
-
-  static const int GOING_FORWARD   = 0;
-  static const int GOING_BACK = 1;
-  static const int TURNING = 2;
-
-  static constexpr double TURNING_TIME = 5.0;
-  static constexpr double BACKING_TIME = 3.0;
-
-  int state_;
-
-  bool pressed_;
-
-  ros::Time press_ts_;
-  ros::Time turn_ts_;
-
-  ros::Subscriber sub_bumber_;
-  ros::Publisher pub_vel_;
+  void step(); // Implementar por Moi :) .
 };
 
 }  // namespace fsm_bump_go
