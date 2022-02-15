@@ -33,8 +33,8 @@ public:
   void step(); // Implementar por Moi :) .
 private:
   bool left_pressed_;
-  const float TURNING_LEFT = 0.35;
-  const float TURNING_RIGHT = -0.35;
+  static const int TURNING_RIGHT = 3;
+  
 
 };
 
