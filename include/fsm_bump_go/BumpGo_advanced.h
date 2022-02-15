@@ -31,6 +31,11 @@ public:
 
   void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
   void step(); // Implementar por Moi :) .
+private:
+  bool left_pressed_;
+  const float TURNING_LEFT = 0.35;
+  const float TURNING_RIGHT = -0.35;
+
 };
 
 }  // namespace fsm_bump_go
