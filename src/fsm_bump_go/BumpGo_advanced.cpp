@@ -21,66 +21,20 @@ namespace fsm_bump_go
   void BumpGoAD :: bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
   {
       BumpGo::bumperCallback(msg);
+      left_pressed_ = msg->bumper == kobuki_msgs::BumperEvent::LEFT; // Updates the variable "left_pressed_"
   }
 
   void BumpGoAD :: step()
   {
-    BumpGo :: step();
-
+    if (left_pressed_) // If left bumper is pressed, turning speed is changed to TURNING_RIGHT ( <0 ) in order to avoid the obstacle
+    {
+      TURNING_SPEED = TURNING_RIGHT;
+    } // If other bumper is detected, the default speed becomes TURNING_LEFT ( >0 )
+    else
+    {
+      TURNING_SPEED = TURNING_LEFT;
+    }
+    BumpGo::step();
   }
 
-/*void BumpGoAD::step()
-{
-  geometry_msgs::Twist cmd;
-
-  switch (state_)
-  {
-  case GOING_FORWARD:
-    cmd.linear.x = LINEAR_SPEED;
-    cmd.linear.y = 0.0;
-    cmd.linear.z = 0.0;
-    cmd.angular.x = 0.0;
-    cmd.angular.y = 0.0;
-    cmd.angular.z = 0.0;
-    if (pressed_)
-    {
-      press_ts_ = ros::Time::now();
-      state_ = GOING_BACK;
-      ROS_INFO("GOING_FORWARD -> GOING_BACK");
-    }
-    break;
-
-  case GOING_BACK:
-    cmd.linear.x = -LINEAR_SPEED;
-    cmd.linear.y = 0.0;
-    cmd.linear.z = 0.0;
-    cmd.angular.x = 0.0;
-    cmd.angular.y = 0.0;
-    cmd.angular.z = 0.0;
-
-    if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
-    {
-      turn_ts_ = ros::Time::now();
-      state_ = TURNING;
-      ROS_INFO("GOING_BACK -> TURNING");
-    }
-    break;
-
-  case TURNING:
-    cmd.linear.x = 0.0;
-    cmd.linear.y = 0.0;
-    cmd.linear.z = 0.0;
-    cmd.angular.x = 0.0;
-    cmd.angular.y = 0.0;
-    cmd.angular.z = TURNING_SPEED;
-    if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
-    {
-      state_ = GOING_FORWARD;
-      ROS_INFO("TURNING -> GOING_FORWARD");
-    }
-    break;
-  }
-
-  pub_vel_.publish(cmd);
-}*/
 }
