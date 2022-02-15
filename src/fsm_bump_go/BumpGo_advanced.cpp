@@ -76,6 +76,6 @@ namespace fsm_bump_go
     } 
 
     pub_vel_.publish(cmd);
-  }
+    }
 
 }

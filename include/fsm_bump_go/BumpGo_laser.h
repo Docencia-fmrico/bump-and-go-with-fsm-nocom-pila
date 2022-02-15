@@ -17,7 +17,8 @@
 
 #include "ros/ros.h"
 
-#include "kobuki_msgs/BumperEvent.h" // modificar el include para el laser.
+#include "sensor_msgs/LaserScan.h" // modificar el include para el laser.
+#include "kobuki_msgs/BumperEvent.h"
 #include "geometry_msgs/Twist.h"
 #include "fsm_bump_go/BumpGo.h"
 
@@ -27,13 +28,16 @@ namespace fsm_bump_go
 class BumpGoLaser : BumpGo
 {
 public:
-  BumpGoLaser() : BumpGo(){};
-
+  BumpGoLaser();
+  
   void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
+  void LaserCallback(const sensor_msgs::LaserScan::ConstPtr& msg);
   void step();
 private:
-  const float TURNING_LEFT = 0.35;
-  const float TURNING_RIGHT = -0.35;
+  ros::Subscriber sub_laser_;
+  bool left_pressed_;
+  static const int TURNING_RIGHT = 3;
+  const float DISTANCE_ = 0.3; 
 
 };
 
