@@ -19,7 +19,7 @@ namespace fsm_bump_go
 {
   BumpGoLaser::BumpGoLaser()
   {
-    sub_laser_ = n_.subscribe("/sensor_msgs/LaserScan", 1, &BumpGoLaser::LaserCallback, this); // ("<topic al que te suscribes>", 1, &clase::callbackNecesario, this)
+    sub_laser_ = n_.subscribe("/scan", 1, &BumpGoLaser::LaserCallback, this); // ("<topic al que te suscribes>", 1, &clase::callbackNecesario, this)
     pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1); // advertise<tipo de mensaje>("<topic en el que publicar>", 1)
   }
 
@@ -31,7 +31,7 @@ namespace fsm_bump_go
 
   void BumpGoLaser :: LaserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   {
-    pressed_ = msg->ranges[0] <= DISTANCE_;
+    pressed_ = msg->ranges[1] <= DISTANCE_;
     std::cout<<"EPcho: " <<pressed_<<std::endl;
   }
 
