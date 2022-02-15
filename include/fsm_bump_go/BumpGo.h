@@ -33,7 +33,7 @@ public:
 
 protected:
   const float LINEAR_SPEED = 0.15;
-  float TURNING_SPEED = 0.35;
+  const float TURNING_SPEED = 0.35;
 
   ros::NodeHandle n_;
 

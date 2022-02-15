@@ -26,15 +26,56 @@ namespace fsm_bump_go
 
   void BumpGoAD :: step()
   {
-    if (left_pressed_) // If left bumper is pressed, turning speed is changed to TURNING_RIGHT ( <0 ) in order to avoid the obstacle
+    geometry_msgs::Twist cmd;
+
+    switch (state_)
     {
-      TURNING_SPEED = TURNING_RIGHT;
-    } // If other bumper is detected, the default speed becomes TURNING_LEFT ( >0 )
-    else
-    {
-      TURNING_SPEED = TURNING_LEFT;
-    }
-    BumpGo::step();
+    case GOING_FORWARD:
+      cmd.linear.x = LINEAR_SPEED;
+      if (pressed_)
+      {
+        press_ts_ = ros::Time::now();
+        state_ = GOING_BACK;
+        ROS_INFO("GOING_FORWARD -> GOING_BACK");
+      }
+      break;
+
+    case GOING_BACK:
+      cmd.linear.x = -LINEAR_SPEED;
+      if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
+      {
+        turn_ts_ = ros::Time::now();
+        if(left_pressed_)
+        {
+          state_ = TURNING_RIGHT;
+        }else{
+          state_ = TURNING;
+        }
+        ROS_INFO("GOING_BACK -> TURNING");
+      }
+      break;
+
+    case TURNING:
+      cmd.angular.z = TURNING_SPEED;
+      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
+      {
+        state_ = GOING_FORWARD;
+        ROS_INFO("TURNING -> GOING_FORWARD");
+      }
+      break;
+    
+
+    case TURNING_RIGHT:
+      cmd.angular.z = - TURNING_SPEED;
+      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
+      {
+        state_ = GOING_FORWARD;
+        ROS_INFO("TURNING_RIGTH -> GOING_FORWARD");
+      }
+      break;
+    } 
+
+    pub_vel_.publish(cmd);
   }
 
 }
