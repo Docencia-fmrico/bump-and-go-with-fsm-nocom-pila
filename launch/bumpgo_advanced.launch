@@ -1,0 +1,3 @@
+<launch>
+	<node pkg="fsm_bump_go" type="bumpgo_advanced_node" name="Advanced_bumper" output="screen"/>
+</launch>
