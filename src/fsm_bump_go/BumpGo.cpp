@@ -60,7 +60,11 @@ void BumpGo::step()
     }
     break;
 
+<<<<<<< HEAD
+  case TURNING:
+=======
   case TURNING_LEFT:
+>>>>>>> origin/main
     cmd.angular.z = TURNING_SPEED;
     pub_led1_.publish(led);
     if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
