@@ -40,11 +40,6 @@ void BumpGo::step()
   {
   case GOING_FORWARD:
     cmd.linear.x = LINEAR_SPEED;
-    cmd.linear.y = 0.0;
-    cmd.linear.z = 0.0;
-    cmd.angular.x = 0.0;
-    cmd.angular.y = 0.0;
-    cmd.angular.z = 0.0;
     if (pressed_)
     {
       press_ts_ = ros::Time::now();
@@ -55,12 +50,6 @@ void BumpGo::step()
 
   case GOING_BACK:
     cmd.linear.x = -LINEAR_SPEED;
-    cmd.linear.y = 0.0;
-    cmd.linear.z = 0.0;
-    cmd.angular.x = 0.0;
-    cmd.angular.y = 0.0;
-    cmd.angular.z = 0.0;
-
     if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
     {
       turn_ts_ = ros::Time::now();
@@ -70,11 +59,6 @@ void BumpGo::step()
     break;
 
   case TURNING:
-    cmd.linear.x = 0.0;
-    cmd.linear.y = 0.0;
-    cmd.linear.z = 0.0;
-    cmd.angular.x = 0.0;
-    cmd.angular.y = 0.0;
     cmd.angular.z = TURNING_SPEED;
     if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
     {
