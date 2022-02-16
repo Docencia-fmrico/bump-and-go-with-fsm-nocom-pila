@@ -18,6 +18,7 @@
 #include "ros/ros.h"
 
 #include "kobuki_msgs/BumperEvent.h"
+#include "kobuki_msgs/Led.h"
 #include "geometry_msgs/Twist.h"
 #include "fsm_bump_go/BumpGo.h"
 
@@ -27,13 +28,16 @@ namespace fsm_bump_go
 class BumpGoAD : BumpGo
 {
 public:
-  BumpGoAD() : BumpGo(){};
+  BumpGoAD() : BumpGo(){
+    pub_led2_ = n_.advertise<kobuki_msgs::Led>("/mobile_base/commands/led2", 1);
+    };
 
   void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
-  void step(); // Implementar por Moi :) .
+  void step(); 
 private:
   bool left_pressed_;
   static const int TURNING_RIGHT = 3;
+  ros::Publisher pub_led2_;
   
 
 };

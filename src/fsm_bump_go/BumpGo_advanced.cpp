@@ -27,6 +27,8 @@ namespace fsm_bump_go
   void BumpGoAD :: step()
   {
     geometry_msgs::Twist cmd;
+    kobuki_msgs::Led led;
+    led.value = LED_ROJO;
 
     switch (state_)
     {
@@ -49,24 +51,28 @@ namespace fsm_bump_go
         {
           state_ = TURNING_RIGHT;
         }else{
-          state_ = TURNING;
+          state_ = TURNING_LEFT;
         }
         ROS_INFO("GOING_BACK -> TURNING");
+        
       }
       break;
 
-    case TURNING:
+    case TURNING_LEFT:
       cmd.angular.z = TURNING_SPEED;
+      pub_led1_.publish(led);
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
         state_ = GOING_FORWARD;
-        ROS_INFO("TURNING -> GOING_FORWARD");
+        ROS_INFO("TURNING_LEFT -> GOING_FORWARD");
+        
       }
       break;
     
 
     case TURNING_RIGHT:
       cmd.angular.z = - TURNING_SPEED;
+      pub_led2_.publish(led);
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
         state_ = GOING_FORWARD;
@@ -74,8 +80,10 @@ namespace fsm_bump_go
       }
       break;
     } 
-
+    led.value = LED_APAGADO;
+    pub_led1_.publish(led);
+    pub_led2_.publish(led);
     pub_vel_.publish(cmd);
-    }
+  }
 
 }
