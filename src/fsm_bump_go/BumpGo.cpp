@@ -21,7 +21,7 @@ BumpGo::BumpGo(): state_(GOING_FORWARD), pressed_(false)
 {
   sub_bumber_ = n_.subscribe("/mobile_base/events/bumper", 1, &BumpGo::bumperCallback, this); // ("<topic al que te suscribes>", 1, &clase::callbackNecesario, this)
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1); // advertise<tipo de mensaje>("<topic en el que publicar>", 1)
-  //pub_led1_ = n_.advertise<
+  pub_led1_ = n_.advertise<kobuki_msgs::Led>("/mobile_base/commands/led1", 1);
 }
 
 void BumpGo::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
@@ -35,6 +35,8 @@ void BumpGo::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 void BumpGo::step()
 {
   geometry_msgs::Twist cmd;
+  kobuki_msgs::Led led;
+  led.value = LED_ROJO;
 
   switch (state_)
   {
@@ -53,21 +55,27 @@ void BumpGo::step()
     if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
     {
       turn_ts_ = ros::Time::now();
-      state_ = TURNING;
+      state_ = TURNING_LEFT;
       ROS_INFO("GOING_BACK -> TURNING");
     }
     break;
 
+<<<<<<< HEAD
   case TURNING:
+=======
+  case TURNING_LEFT:
+>>>>>>> origin/main
     cmd.angular.z = TURNING_SPEED;
+    pub_led1_.publish(led);
     if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
     {
       state_ = GOING_FORWARD;
-      ROS_INFO("TURNING -> GOING_FORWARD");
+      ROS_INFO("TURNING_LEFT -> GOING_FORWARD");
     }
     break;
   }
-
+  led.value = LED_APAGADO;
+  pub_led1_.publish(led);
   pub_vel_.publish(cmd);
 }
 }
