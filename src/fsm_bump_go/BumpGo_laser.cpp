@@ -21,6 +21,7 @@ namespace fsm_bump_go
   {
     sub_laser_ = n_.subscribe("/scan", 1, &BumpGoLaser::LaserCallback, this); // ("<topic al que te suscribes>", 1, &clase::callbackNecesario, this)
     pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1); // advertise<tipo de mensaje>("<topic en el que publicar>", 1)
+    pub_angle_ = n_.advertise<sensor_msgs::LaserScan>("/scan", 1);
   }
 
   void BumpGoLaser :: bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
@@ -31,19 +32,28 @@ namespace fsm_bump_go
 
   void BumpGoLaser :: LaserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   {
-    pressed_ = msg->ranges[1] <= DISTANCE_;
-    std::cout<<"EPcho: " <<pressed_<<std::endl;
-  }
+    // for (int i = (msg->angle_max - msg->angle_min)/4)
+    prueba = msg->ranges[msg->ranges.size() - msg->ranges.size()/8]; //>= 0.3;
+    std::cout<<"EPcho: " <<prueba<<std::endl;
+    //std::cout<<"EPcho: " <<msg->ranges.size()<<std::endl;
+  } 
 
   void BumpGoLaser :: step()
   {
     geometry_msgs::Twist cmd;
 
+    //sensor_msgs::LaserScan laser;
+
+    //laser.angle_min = -0.7853;
+    //laser.angle_max = 0.7853;
+
+    //pub_angle_.publish(laser);
+
     switch (state_)
     {
     case GOING_FORWARD:
-      cmd.linear.x = 0.0;
-      if (pressed_)
+      //cmd.linear.x = LINEAR_SPEED;
+      if (!prueba)
       {
         press_ts_ = ros::Time::now();
         state_ = GOING_BACK;
@@ -52,7 +62,7 @@ namespace fsm_bump_go
       break;
 
     case GOING_BACK:
-      cmd.linear.x = -LINEAR_SPEED;
+      //cmd.linear.x = -LINEAR_SPEED;
       if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
       {
         turn_ts_ = ros::Time::now();
@@ -67,7 +77,7 @@ namespace fsm_bump_go
       break;
 
     case TURNING_LEFT:
-      cmd.angular.z = TURNING_SPEED;
+      //cmd.angular.z = TURNING_SPEED;
       
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
@@ -78,7 +88,7 @@ namespace fsm_bump_go
     
 
     case TURNING_RIGHT:
-      cmd.angular.z = - TURNING_SPEED;
+      //cmd.angular.z = - TURNING_SPEED;
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
         state_ = GOING_FORWARD;

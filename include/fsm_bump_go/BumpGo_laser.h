@@ -39,6 +39,10 @@ private:
   static const int TURNING_RIGHT = 3;
   const float DISTANCE_ = 0.3; 
 
+  float prueba;
+
+  ros::Publisher pub_angle_;
+
 };
 
 }  // namespace fsm_bump_go
