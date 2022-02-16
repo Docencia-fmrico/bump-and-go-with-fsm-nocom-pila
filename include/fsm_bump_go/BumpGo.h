@@ -17,6 +17,7 @@
 
 #include "ros/ros.h"
 
+#include "kobuki_msgs/Led.h"
 #include "kobuki_msgs/BumperEvent.h"
 #include "geometry_msgs/Twist.h"
 
@@ -39,7 +40,9 @@ protected:
 
   static const int GOING_FORWARD   = 0;
   static const int GOING_BACK = 1;
-  static const int TURNING = 2;
+  static const int TURNING_LEFT = 2;
+  static const int LED_ROJO = 3;
+  static const int LED_APAGADO = 0;
 
   static constexpr double TURNING_TIME = 5.0;
   static constexpr double BACKING_TIME = 3.0;
@@ -53,6 +56,7 @@ protected:
 
   ros::Subscriber sub_bumber_;
   ros::Publisher pub_vel_;
+  ros::Publisher pub_led1_;
 };
 
 }  // namespace fsm_bump_go

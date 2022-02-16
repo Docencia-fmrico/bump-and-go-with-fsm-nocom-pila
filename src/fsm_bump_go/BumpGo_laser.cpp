@@ -60,18 +60,19 @@ namespace fsm_bump_go
         {
           state_ = TURNING_RIGHT;
         }else{
-          state_ = TURNING;
+          state_ = TURNING_LEFT;
         }
         ROS_INFO("GOING_BACK -> TURNING");
       }
       break;
 
-    case TURNING:
+    case TURNING_LEFT:
       cmd.angular.z = TURNING_SPEED;
+      
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
         state_ = GOING_FORWARD;
-        ROS_INFO("TURNING -> GOING_FORWARD");
+        ROS_INFO("TURNING_LEFT -> GOING_FORWARD");
       }
       break;
     
