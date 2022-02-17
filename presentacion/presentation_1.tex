@@ -112,9 +112,12 @@ Universidad Rey Juan Carlos  \\ % Your institution for the title page
 %------------------------------------ Primera diapo.
 \begin{frame}
 
-
 \frametitle{BumpGo} % Table of contents slide, comment this block out to remove it
-\framesubtitle{State machine:}
+\framesubtitle{State machine}
+
+\centering
+\includegraphics[height=3cm]{Bumpgobasic.jpeg}
+
 \begin{itemize}
 	\item Go forward. \\ \item Bumper.\\ \item Stop.
 	\item Go backward. \\ \item Stop.\\ \item Turn left.\\ \item Go forward again.
@@ -124,14 +127,16 @@ Universidad Rey Juan Carlos  \\ % Your institution for the title page
 \end{frame}
 %---------------------------------Segunda diapo.
 \begin{frame}
-\begin{block}{Implmentations}
+\frametitle{BumpGo}
+\framesubtitle{Implementations}
+\begin{block}{Implementations}
 		In case that bumper crashed, kobuki is going to go back, stop, turn left and go 			forward again.
 \end{block}
 \end{frame}
 
 \begin{frame}
 \frametitle{BumpGo} 
-\framesubtitle{Sensor used:}
+\framesubtitle{Sensor used}
 \begin{block}{Bumper}
 	
 	This sensor measure 1 while it is crashed with object and measure 0 when it is 			    released.
@@ -143,14 +148,17 @@ Universidad Rey Juan Carlos  \\ % Your institution for the title page
 
 \begin{frame}
 \frametitle{BumpGo advanced}
-\framesubtitle{State machine:}	
+\framesubtitle{State machine}	
+
+\centering
+\includegraphics[height=3cm]{Bumpgoadvanced.jpg}
 
 \begin{itemize}
+
 	\item Go forward. \\ \item Bumper.\\ \item Stop.
 	\item Go backward. \\ \item Stop.\\ \item Turn left or right.\\ \item Go forward again.
 \end{itemize}
 \end{frame}
-
 
 
 %----------------
@@ -162,7 +170,7 @@ Universidad Rey Juan Carlos  \\ % Your institution for the title page
 	left sense, and vice versa.
 \end{block}
 \begin{block}{Leds}
-	We implemented led1 and led2 to this BumpGo version. While kobuki is turning to the 		left sense, led1 is lighting. Same with right sense with the led2.
+	We implemented led1 and led2 to this BumpGo version. While kobuki is turning to the left sense, led1 is shining. Same with right sense with the led2.
 \end{block}
 \end{frame}
 %---------------------------- Cuarta diapo.
@@ -187,6 +195,9 @@ Universidad Rey Juan Carlos  \\ % Your institution for the title page
 \frametitle{BumpGo Laser}
 \framesubtitle{States machine}
 
+\centering
+\includegraphics[height=3cm]{Bumpgolaser.jpg}
+
 \begin{itemize}
 
 	\item Go forward. \\ \item Rplidar or bumper.\\ \item Stop.
@@ -203,12 +214,12 @@ Universidad Rey Juan Carlos  \\ % Your institution for the title page
 \frametitle{BumpGo Laser}
 \framesubtitle{Implementations}
 \begin{block}{Turning Sense}
-	We added 2 turning sense. This is,in case that rplidar measure a distance lower than our min distance setted, and its come from left side sweep , kobuki have to turns to
+	We added 2 turning sense. So, in case that rplidar measure a distance lower than our min distance setted, and its come from left side sweep, kobuki have to turns to
 	right sense, and vice versa. In case, that measurement comes from forward kobuki turn to left sense by default.
 \end{block}
 
 \begin{block}{Leds}
-	We implemented led1 and led2 to this BumpGo version. While kobuki is turning to the 		left sense, led1 is lighting. Same with right sense with the led2.
+	We implemented led1 and led2 to this BumpGo version. While kobuki is turning to the left sense, led1 is shining. Same with right sense with the led2.
 \end{block}
 
 
@@ -243,7 +254,7 @@ Universidad Rey Juan Carlos  \\ % Your institution for the title page
 \end{block}
 
 \centering
-\includegraphics[width=0.5\textwidth]{levels.jpeg}
+\includegraphics[width=0.35\textwidth]{levels.jpeg}
 
 
 

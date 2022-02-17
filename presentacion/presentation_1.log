@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2022.2.17)  17 FEB 2022 19:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2022.2.17)  17 FEB 2022 22:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -850,51 +850,67 @@ ry-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 ) (./presentation_1.nav) [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+<Bumpgobasic.jpeg, id=53, 833.1125pt x 281.05pt>
+File: Bumpgobasic.jpeg Graphic file (type jpg)
+<use Bumpgobasic.jpeg>
+Package pdftex.def Info: Bumpgobasic.jpeg  used on input line 127.
+(pdftex.def)             Requested size: 253.02475pt x 85.35826pt.
+ [2
 
-] [3
+ <./Bumpgobasic.jpeg>] [3
 
 ] [4
 
-] [5
+]
+<Bumpgoadvanced.jpg, id=138, 815.045pt x 423.5825pt>
+File: Bumpgoadvanced.jpg Graphic file (type jpg)
+<use Bumpgoadvanced.jpg>
+Package pdftex.def Info: Bumpgoadvanced.jpg  used on input line 161.
+(pdftex.def)             Requested size: 164.23732pt x 85.35826pt.
+ [5
 
-] [6
+ <./Bumpgoadvanced.jpg>]
+[6
 
 ] [7
 
-] [8
+]
+<Bumpgolaser.jpg, id=218, 824.07875pt x 426.59375pt>
+File: Bumpgolaser.jpg Graphic file (type jpg)
+<use Bumpgolaser.jpg>
+Package pdftex.def Info: Bumpgolaser.jpg  used on input line 210.
+(pdftex.def)             Requested size: 164.88828pt x 85.35826pt.
+ [8
 
-] [9
+ <./Bumpgolaser.jpg>] [9
 
 ]
-<angle.jpeg, id=269, 642.4pt x 401.5pt>
+<angle.jpeg, id=272, 642.4pt x 401.5pt>
 File: angle.jpeg Graphic file (type jpg)
 <use angle.jpeg>
-Package pdftex.def Info: angle.jpeg  used on input line 232.
+Package pdftex.def Info: angle.jpeg  used on input line 243.
 (pdftex.def)             Requested size: 171.14764pt x 106.96674pt.
  [10
 
  <./angle.jpeg>]
-<levels.jpeg, id=298, 321.2pt x 321.2pt>
+<levels.jpeg, id=301, 321.2pt x 321.2pt>
 File: levels.jpeg Graphic file (type jpg)
 <use levels.jpeg>
-Package pdftex.def Info: levels.jpeg  used on input line 250.
-(pdftex.def)             Requested size: 171.14764pt x 171.15169pt.
+Package pdftex.def Info: levels.jpeg  used on input line 261.
+(pdftex.def)             Requested size: 119.80544pt x 119.80275pt.
+ [11
 
-Overfull \vbox (10.11105pt too high) detected at line 250
- []
-
-[11
-
- <./levels.jpeg>] [12
+ <./levels.jpeg>]
+[12
 
 ] [13
 
 ]
-<p.jpeg, id=378, 301.125pt x 168.63pt>
+<p.jpeg, id=382, 301.125pt x 168.63pt>
 File: p.jpeg Graphic file (type jpg)
 <use p.jpeg>
-Package pdftex.def Info: p.jpeg  used on input line 292.
+Package pdftex.def Info: p.jpeg  used on input line 303.
 (pdftex.def)             Requested size: 171.14764pt x 95.84734pt.
  [14
 
@@ -908,19 +924,19 @@ Package pdftex.def Info: p.jpeg  used on input line 292.
 \tf@snm=\write8
 \openout8 = `presentation_1.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 296.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 296.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 307.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 307.
  (./presentation_1.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 296.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 296.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 307.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 307.
 Package rerunfilecheck Info: File `presentation_1.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 17846 strings out of 483140
- 340121 string characters out of 5965151
+ 17867 strings out of 483140
+ 340491 string characters out of 5965151
  586600 words of memory out of 5000000
- 32411 multiletter control sequences out of 15000+600000
+ 32428 multiletter control sequences out of 15000+600000
  535776 words of font info for 35 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  54i,15n,59p,781b,553s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -931,10 +947,10 @@ ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/font
 s/type1/public/amsfonts/cm/cmssi8.pfb>
-Output written on presentation_1.pdf (14 pages, 148883 bytes).
+Output written on presentation_1.pdf (14 pages, 305868 bytes).
 PDF statistics:
- 437 PDF objects out of 1000 (max. 8388607)
+ 440 PDF objects out of 1000 (max. 8388607)
  394 compressed objects within 4 object streams
  29 named destinations out of 1000 (max. 500000)
- 88 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 103 words of extra memory for PDF output out of 10000 (max. 10000000)
 
