@@ -52,7 +52,7 @@ void BumpGoLaser :: LaserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
     if(!laser_detected_)
     {
       left_laser_detected_ = false;
-      left_bumper_pressed_ = false;  // 
+      left_bumper_pressed_ = false;
       break;
     }
   }    
