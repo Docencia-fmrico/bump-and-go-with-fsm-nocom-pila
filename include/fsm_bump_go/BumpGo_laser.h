@@ -17,9 +17,7 @@
 
 #include "ros/ros.h"
 
-#include "sensor_msgs/LaserScan.h" // modificar el include para el laser.
-#include "kobuki_msgs/BumperEvent.h"
-#include "geometry_msgs/Twist.h"
+#include "sensor_msgs/LaserScan.h"
 #include "fsm_bump_go/BumpGo.h"
 
 namespace fsm_bump_go
@@ -34,15 +32,15 @@ public:
   void LaserCallback(const sensor_msgs::LaserScan::ConstPtr& msg);
   void step();
 private:
-  bool left_pressed_;
   static const int TURNING_RIGHT = 3;
-  const float DISTANCE_ = 0.3; 
-  int min_sweep_left;
-  int min_sweep_right;
-  int max_sweep_left;
-  int max_sweep_right;
-  int measurement_;
-  bool izquierda_; 
+  const float DISTANCE_ = 0.35;  // minim distance the kobuki change state
+  int max_sweep_left;  // max left angle kobuki uses to detect
+  int min_sweep_right;  // min left angle kobuki uses to detect (center)
+  int max_sweep_right;  // max rigth angle kobuki uses to detect
+  int min_sweep_left;  // min rigth angle kobuki uses to detect (center)
+  int laser_detected_;  // true when the laser detect something (on any side)
+  bool left_laser_detected_;  // true when the laser detect something on the left side. False on the rigth side.
+  bool left_bumper_pressed_;  // true when the bumper detect something on the left side. False on the rigth side.
 
   ros::Subscriber sub_laser_;
   ros::Publisher pub_led2_;
