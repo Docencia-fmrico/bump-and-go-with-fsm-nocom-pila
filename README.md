@@ -3,4 +3,14 @@
 
 ### Nocom-pila's bump and go versions
 
--
+We've made three files with different code. One corresponds to each version of the practice
+1. Bump and go basic version (with only one spin)
+2. Bump and go advanced (with two spin possibilities)
+3. Bump and go laser (pro version using the base and the laser)
+
+# 1. Bump and go basic
+This version has only the code to make the kobuki spin to the left following a very simple states-machine
+The possible states are:
+- GOING_FORWARD
+- GOING_BACK
+- TURNING_LEFT
