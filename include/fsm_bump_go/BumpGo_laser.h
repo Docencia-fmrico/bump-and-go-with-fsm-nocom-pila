@@ -33,14 +33,19 @@ public:
   void step();
 private:
   static const int TURNING_RIGHT = 3;
-  const float DISTANCE_ = 0.35;  // minim distance the kobuki change state
+  const float DISTANCE_ = 0.4;  // minim distance the kobuki change state
+  const float SECURE_DISTANCE_ = 0.3;  // minim distance the kobuki change state
+  int max_array_;  // contains the max size of the array
   int max_sweep_left;  // max left angle kobuki uses to detect
   int min_sweep_right;  // min left angle kobuki uses to detect (center)
   int max_sweep_right;  // max rigth angle kobuki uses to detect
   int min_sweep_left;  // min rigth angle kobuki uses to detect (center)
+  int security_max_sweep;  // max back angle kobuki uses to detect backwards objects
+  int security_min_sweep;  // min back angle kobuki uses to detect backwards objects
   int laser_detected_;  // true when the laser detect something (on any side)
   bool left_laser_detected_;  // true when the laser detect something on the left side. False on the rigth side.
   bool left_bumper_pressed_;  // true when the bumper detect something on the left side. False on the rigth side.
+  int security_laser_detected_;  // true when the laser detect something on the back
 
   ros::Subscriber sub_laser_;
   ros::Publisher pub_led2_;
