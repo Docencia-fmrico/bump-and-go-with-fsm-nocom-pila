@@ -34,15 +34,18 @@ public:
   void LaserCallback(const sensor_msgs::LaserScan::ConstPtr& msg);
   void step();
 private:
-  ros::Subscriber sub_laser_;
   bool left_pressed_;
   static const int TURNING_RIGHT = 3;
   const float DISTANCE_ = 0.3; 
+  int min_sweep_left;
+  int min_sweep_right;
+  int max_sweep_left;
+  int max_sweep_right;
+  int measurement_;
+  bool izquierda_; 
 
-  float prueba;
-
-  ros::Publisher pub_angle_;
-
+  ros::Subscriber sub_laser_;
+  ros::Publisher pub_led2_;
 };
 
 }  // namespace fsm_bump_go
