@@ -37,6 +37,7 @@ The possible states are
 - TURNING_RIGHT
 This "pro" version of the program starts, as the others, in the "GOING_FORWARD" state. When any obstacle is detected by the laser closer than 0,3m, the kobuki switches it's state to "GOING_BACK" and a few seconds later to "TURNING_LEFT" or "TURNING_RIGHT" just as the previous version does. Furthermore, when the kobuki is going back, it can switch before the common time has finished if it detects another obstacle on the way it's moving backward.
 If any bumper of the base is pressed by an object that hadn't been detected by the laser, it also changes the kobuki's current state, identically as the previous way.  
+With the laser detection, we've use two different angles. To the frontal detections we have used two 45-degree angles (one for each side), and for the back detections two 60-degree angles (again, one for each side).
   
 All the versions described above include extra-code that turns on a led while the kobuki is turning to any side. If it's turning to the left it's turned on the led 1, and if it's to the right is the led 2
-
+  
