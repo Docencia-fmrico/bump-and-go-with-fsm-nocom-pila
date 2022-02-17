@@ -27,14 +27,20 @@ BumpGoLaser::BumpGoLaser()
 
 void BumpGoLaser :: LaserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
-  max_sweep_left = msg->ranges.size() - msg->ranges.size()/8;  // initialization of every angle of detection
-  min_sweep_left = msg->ranges.size() -1;
+  max_array_ = (msg->angle_max - msg->angle_min) / msg->angle_increment;
+
+  max_sweep_left = max_array_ - max_array_/10;  // initialization of every angle of detection
+  min_sweep_left = max_array_;
   min_sweep_right = 0;
-  max_sweep_right = msg->ranges.size()/8;
-  
+  max_sweep_right = max_array_/10;
+
+  max_array_ = (msg->angle_max - msg->angle_min) / msg->angle_increment;  // initialization of every angle of security detection
+  security_min_sweep = (2 * max_array_ / 6);
+  security_max_sweep = (4 * max_array_ / 6);
+
   for (int i = max_sweep_left; i < min_sweep_left; i++)  // reads every value in the range (LEFT)
   {
-    laser_detected_ = msg->ranges[i] >= DISTANCE_;  // updates the value of laser_detected_ (true if is under 0.3m)
+    laser_detected_ = msg->ranges[i] >= DISTANCE_;  // updates the value of laser_detected_ (true if is under 0.4m)
     if(!laser_detected_)
     {
       left_laser_detected_ = true;
@@ -48,15 +54,25 @@ void BumpGoLaser :: LaserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
     {
       break;
     }
-    laser_detected_ = msg->ranges[i] >= DISTANCE_;  // Updates the value of laser_detected_ (true if is under 0.3m)
+    laser_detected_ = msg->ranges[i] >= DISTANCE_;  // Updates the value of laser_detected_ (true if is under 0.4m)
     if(!laser_detected_)
     {
       left_laser_detected_ = false;
       left_bumper_pressed_ = false;
       break;
     }
-  }    
+  }  
+
+  for (int i = security_min_sweep; i < security_max_sweep; i++)  // reads every value in the back range
+  {
+    security_laser_detected_ = msg->ranges[i] >= SECURE_DISTANCE_;  // updates the value of laser_detected_ (true if is under 0.3m)
+    if(!security_laser_detected_)
+    {
+      break;
+    }
+  }  
 } 
+
 
 void BumpGoLaser :: bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
@@ -89,18 +105,19 @@ void BumpGoLaser :: step()
 
   case GOING_BACK:  // second state of the state machine. Kobuki go backwards
     cmd.linear.x = -LINEAR_SPEED;
-    if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
+    if (((ros::Time::now() - press_ts_).toSec() > BACKING_TIME) || !security_laser_detected_)
     {
       turn_ts_ = ros::Time::now();
       if((left_bumper_pressed_) || (left_laser_detected_))
       {
         state_ = TURNING_RIGHT;
+        ROS_INFO("GOING_BACK -> TURNING_RIGTH");
       }
       else
       {
         state_ = TURNING_LEFT;
+        ROS_INFO("GOING_BACK -> TURNING_LEFT");
       }
-      ROS_INFO("GOING_BACK -> TURNING");
     }
     break;
 
