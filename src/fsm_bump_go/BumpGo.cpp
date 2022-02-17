@@ -19,29 +19,27 @@ namespace fsm_bump_go
 {
 BumpGo::BumpGo(): state_(GOING_FORWARD), pressed_(false)
 {
-  sub_bumber_ = n_.subscribe("/mobile_base/events/bumper", 1, &BumpGo::bumperCallback, this); // ("<topic al que te suscribes>", 1, &clase::callbackNecesario, this)
-  pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1); // advertise<tipo de mensaje>("<topic en el que publicar>", 1)
+  sub_bumber_ = n_.subscribe("/mobile_base/events/bumper", 1, &BumpGo::bumperCallback, this);
+  pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
   pub_led1_ = n_.advertise<kobuki_msgs::Led>("/mobile_base/commands/led1", 1);
 }
 
 void BumpGo::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
-  pressed_ = msg->state == kobuki_msgs::BumperEvent::PRESSED;   // pressed_ cambiara a True si msg->state es PRESSED (1)
-
-  // para detectar que lado ha sido presionado se anadira aqui
-
+  pressed_ = msg->state == kobuki_msgs::BumperEvent::PRESSED; // Updates the variable "pressed_"
 }
 
 void BumpGo::step()
 {
   geometry_msgs::Twist cmd;
   kobuki_msgs::Led led;
-  led.value = LED_ROJO;
 
   switch (state_)
   {
-  case GOING_FORWARD:
+  case GOING_FORWARD:  // first state of the state machine. Kobuki turn off leds and go forward
     cmd.linear.x = LINEAR_SPEED;
+    led.value = LED_APAGADO;
+    pub_led1_.publish(led);
     if (pressed_)
     {
       press_ts_ = ros::Time::now();
@@ -50,7 +48,7 @@ void BumpGo::step()
     }
     break;
 
-  case GOING_BACK:
+  case GOING_BACK:  // second state of the state machine. Kobuki go backwards
     cmd.linear.x = -LINEAR_SPEED;
     if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
     {
@@ -60,8 +58,9 @@ void BumpGo::step()
     }
     break;
 
-  case TURNING_LEFT:
+  case TURNING_LEFT:  // third state of the state machine. Kobuki turn on led and turn
     cmd.angular.z = TURNING_SPEED;
+    led.value = LED_ROJO;
     pub_led1_.publish(led);
     if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
     {
@@ -70,8 +69,6 @@ void BumpGo::step()
     }
     break;
   }
-  led.value = LED_APAGADO;
-  pub_led1_.publish(led);
   pub_vel_.publish(cmd);
 }
 }

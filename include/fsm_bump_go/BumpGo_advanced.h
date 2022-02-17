@@ -17,9 +17,6 @@
 
 #include "ros/ros.h"
 
-#include "kobuki_msgs/BumperEvent.h"
-#include "kobuki_msgs/Led.h"
-#include "geometry_msgs/Twist.h"
 #include "fsm_bump_go/BumpGo.h"
 
 namespace fsm_bump_go
@@ -35,7 +32,7 @@ public:
   void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
   void step(); 
 private:
-  bool left_pressed_;
+  bool left_bumper_pressed_;  // true when the bumper detect something on the left side. False on the rigth side.
   static const int TURNING_RIGHT = 3;
   ros::Publisher pub_led2_;
   
