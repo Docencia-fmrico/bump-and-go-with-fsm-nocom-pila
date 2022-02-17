@@ -17,73 +17,71 @@
 
 namespace fsm_bump_go
 {
+void BumpGoAD :: bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
+{
+    BumpGo::bumperCallback(msg);
+    left_bumper_pressed_ = msg->bumper == kobuki_msgs::BumperEvent::LEFT; // Updates the variable "left_bumper_pressed_"
+}
 
-  void BumpGoAD :: bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
+void BumpGoAD :: step()
+{
+  geometry_msgs::Twist cmd;
+  kobuki_msgs::Led led;
+
+  switch (state_)
   {
-      BumpGo::bumperCallback(msg);
-      left_pressed_ = msg->bumper == kobuki_msgs::BumperEvent::LEFT; // Updates the variable "left_pressed_"
-  }
-
-  void BumpGoAD :: step()
-  {
-    geometry_msgs::Twist cmd;
-    kobuki_msgs::Led led;
-    led.value = LED_ROJO;
-
-    switch (state_)
-    {
-    case GOING_FORWARD:
-      cmd.linear.x = LINEAR_SPEED;
-      if (pressed_)
-      {
-        press_ts_ = ros::Time::now();
-        state_ = GOING_BACK;
-        ROS_INFO("GOING_FORWARD -> GOING_BACK");
-      }
-      break;
-
-    case GOING_BACK:
-      cmd.linear.x = -LINEAR_SPEED;
-      if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
-      {
-        turn_ts_ = ros::Time::now();
-        if(left_pressed_)
-        {
-          state_ = TURNING_RIGHT;
-        }else{
-          state_ = TURNING_LEFT;
-        }
-        ROS_INFO("GOING_BACK -> TURNING");
-        
-      }
-      break;
-
-    case TURNING_LEFT:
-      cmd.angular.z = TURNING_SPEED;
-      pub_led1_.publish(led);
-      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
-      {
-        state_ = GOING_FORWARD;
-        ROS_INFO("TURNING_LEFT -> GOING_FORWARD");
-        
-      }
-      break;
-    
-
-    case TURNING_RIGHT:
-      cmd.angular.z = - TURNING_SPEED;
-      pub_led2_.publish(led);
-      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
-      {
-        state_ = GOING_FORWARD;
-        ROS_INFO("TURNING_RIGTH -> GOING_FORWARD");
-      }
-      break;
-    } 
+  case GOING_FORWARD:  // first state of the state machine. Kobuki turn off all leds and go forward
+    cmd.linear.x = LINEAR_SPEED;
     led.value = LED_APAGADO;
     pub_led1_.publish(led);
     pub_led2_.publish(led);
-    pub_vel_.publish(cmd);
-  }
+    if (pressed_)
+    {
+      press_ts_ = ros::Time::now();
+      state_ = GOING_BACK;
+      ROS_INFO("GOING_FORWARD -> GOING_BACK");
+    }
+    break;
 
+  case GOING_BACK:  // second state of the state machine. Kobuki go backwards
+    cmd.linear.x = -LINEAR_SPEED;
+    if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
+    {
+      turn_ts_ = ros::Time::now();
+      if(left_bumper_pressed_)
+      {
+        state_ = TURNING_RIGHT;
+      }
+      else
+      {
+        state_ = TURNING_LEFT;
+      }
+      ROS_INFO("GOING_BACK -> TURNING");
+    }
+    break;
+
+  case TURNING_LEFT:  // third state of the state machine. Kobuki turn on led and turn
+    cmd.angular.z = TURNING_SPEED;
+    led.value = LED_ROJO;
+    pub_led1_.publish(led);
+    if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
+    {
+      state_ = GOING_FORWARD;
+      ROS_INFO("TURNING_LEFT -> GOING_FORWARD");
+    }
+    break;
+
+  case TURNING_RIGHT:
+    cmd.angular.z = - TURNING_SPEED;
+    led.value = LED_ROJO;
+    pub_led2_.publish(led);
+    if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
+    {
+      state_ = GOING_FORWARD;
+      ROS_INFO("TURNING_RIGTH -> GOING_FORWARD");
+    }
+    break;
+  }
+  pub_vel_.publish(cmd);
+}
 }

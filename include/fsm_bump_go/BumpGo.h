@@ -38,7 +38,7 @@ protected:
 
   ros::NodeHandle n_;
 
-  static const int GOING_FORWARD   = 0;
+  static const int GOING_FORWARD = 0;
   static const int GOING_BACK = 1;
   static const int TURNING_LEFT = 2;
   static const int LED_ROJO = 3;
@@ -49,7 +49,7 @@ protected:
 
   int state_;
 
-  bool pressed_;
+  bool pressed_;  // true when the bumper detect something (on any side)
 
   ros::Time press_ts_;
   ros::Time turn_ts_;
