@@ -17,6 +17,7 @@
 
 #include "ros/ros.h"
 
+#include "kobuki_msgs/Led.h"
 #include "kobuki_msgs/BumperEvent.h"
 #include "geometry_msgs/Twist.h"
 
@@ -28,28 +29,34 @@ class BumpGo
 public:
   BumpGo();
 
-  void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
-  void step();
+  virtual void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
+  virtual void step(); 
 
-private:
+protected:
+  const float LINEAR_SPEED = 0.15;
+  const float TURNING_SPEED = 0.35;
+
   ros::NodeHandle n_;
 
-  static const int GOING_FORWARD   = 0;
+  static const int GOING_FORWARD = 0;
   static const int GOING_BACK = 1;
-  static const int TURNING = 2;
+  static const int TURNING_LEFT = 2;
+  static const int LED_ROJO = 3;
+  static const int LED_APAGADO = 0;
 
   static constexpr double TURNING_TIME = 5.0;
   static constexpr double BACKING_TIME = 3.0;
 
   int state_;
 
-  bool pressed_;
+  bool pressed_;  // true when the bumper detect something (on any side)
 
   ros::Time press_ts_;
   ros::Time turn_ts_;
 
   ros::Subscriber sub_bumber_;
   ros::Publisher pub_vel_;
+  ros::Publisher pub_led1_;
 };
 
 }  // namespace fsm_bump_go

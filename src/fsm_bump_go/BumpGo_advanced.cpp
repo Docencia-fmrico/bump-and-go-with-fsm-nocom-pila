@@ -13,33 +13,28 @@
 // limitations under the License.
 
 #include "ros/ros.h"
-#include "fsm_bump_go/BumpGo.h"
+#include "fsm_bump_go/BumpGo_advanced.h"
 
 namespace fsm_bump_go
 {
-BumpGo::BumpGo(): state_(GOING_FORWARD), pressed_(false)
+void BumpGoAD :: bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
-  sub_bumber_ = n_.subscribe("/mobile_base/events/bumper", 1, &BumpGo::bumperCallback, this);
-  pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
-  pub_led1_ = n_.advertise<kobuki_msgs::Led>("/mobile_base/commands/led1", 1);
+    BumpGo::bumperCallback(msg);
+    left_bumper_pressed_ = msg->bumper == kobuki_msgs::BumperEvent::LEFT; // Updates the variable "left_bumper_pressed_"
 }
 
-void BumpGo::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
-{
-  pressed_ = msg->state == kobuki_msgs::BumperEvent::PRESSED; // Updates the variable "pressed_"
-}
-
-void BumpGo::step()
+void BumpGoAD :: step()
 {
   geometry_msgs::Twist cmd;
   kobuki_msgs::Led led;
 
   switch (state_)
   {
-  case GOING_FORWARD:  // first state of the state machine. Kobuki turn off leds and go forward
+  case GOING_FORWARD:  // first state of the state machine. Kobuki turn off all leds and go forward
     cmd.linear.x = LINEAR_SPEED;
     led.value = LED_APAGADO;
     pub_led1_.publish(led);
+    pub_led2_.publish(led);
     if (pressed_)
     {
       press_ts_ = ros::Time::now();
@@ -53,7 +48,14 @@ void BumpGo::step()
     if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
     {
       turn_ts_ = ros::Time::now();
-      state_ = TURNING_LEFT;
+      if(left_bumper_pressed_)
+      {
+        state_ = TURNING_RIGHT;
+      }
+      else
+      {
+        state_ = TURNING_LEFT;
+      }
       ROS_INFO("GOING_BACK -> TURNING");
     }
     break;
@@ -66,6 +68,17 @@ void BumpGo::step()
     {
       state_ = GOING_FORWARD;
       ROS_INFO("TURNING_LEFT -> GOING_FORWARD");
+    }
+    break;
+
+  case TURNING_RIGHT:
+    cmd.angular.z = - TURNING_SPEED;
+    led.value = LED_ROJO;
+    pub_led2_.publish(led);
+    if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
+    {
+      state_ = GOING_FORWARD;
+      ROS_INFO("TURNING_RIGTH -> GOING_FORWARD");
     }
     break;
   }
